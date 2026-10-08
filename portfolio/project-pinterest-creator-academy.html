@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Creator Academy — Pinterest · João Bosco</title>
+  <meta name="description" content="Designing an e-learning platform from scratch for Pinterest creators — three learning modules with gamification." />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#ffffff; --bg-2:#f4f4f4;
+      --ink:#111111; --muted:#888888;
+      --line:rgba(0,0,0,.10);
+      --accent:#ff4c24;
+      --max:1280px;
+      --serif:"Newsreader",Georgia,"Times New Roman",serif;
+      --sans:"Roboto",-apple-system,BlinkMacSystemFont,sans-serif;
+      --ease:cubic-bezier(.22,.61,.36,1);
+      --r:16px;
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+    body{margin:0;background-color:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none;}
+    img,video{display:block;max-width:100%;}
+    ::selection{background:var(--accent);color:#fff;}
+    .wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px;}
+    @media(max-width:640px){.wrap{padding:0 20px;}}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .85s var(--ease),transform .85s var(--ease);}
+    .reveal.in{opacity:1;transform:none;}
+    .reveal[data-d="1"]{transition-delay:.1s;}
+    .reveal[data-d="2"]{transition-delay:.2s;}
+    .reveal[data-d="3"]{transition-delay:.3s;}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;}}
+
+    /* header */
+    header.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s var(--ease),border-color .4s var(--ease),backdrop-filter .4s var(--ease);border-bottom:1px solid transparent;}
+    header.nav.scrolled{background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+    .nav-inner{display:flex;align-items:center;height:76px;gap:20px;}
+    .back-btn{display:flex;align-items:center;gap:7px;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);flex:none;transition:color .3s var(--ease);}
+    .back-btn:hover{color:var(--ink);}
+    .back-btn svg{transition:transform .3s var(--ease);}
+    .back-btn:hover svg{transform:translateX(-3px);}
+    .nav-divider{width:1px;height:18px;background:var(--line);flex:none;}
+    .brand-link{display:flex;align-items:center;gap:10px;flex:none;}
+    .brand-link img{width:36px;height:36px;border-radius:50%;object-fit:cover;}
+    .brand-link span{font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:-.01em;white-space:nowrap;}
+    .nav-spacer{flex:1;}
+    .nav-links{display:flex;gap:36px;}
+    .nav-links a{font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);position:relative;}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease);}
+    .nav-links a:hover{color:var(--accent);}
+    .nav-links a:hover::after{transform:scaleX(1);transform-origin:left;}
+    @media(max-width:720px){.nav-links{display:none;}}
+
+    /* hero */
+    .proj-hero{padding:clamp(130px,16vw,200px) 0 clamp(60px,8vw,100px);border-bottom:1px solid var(--line);}
+    .proj-eyebrow{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 28px;display:flex;align-items:center;gap:10px;}
+    .proj-eyebrow::before{content:"";display:block;width:24px;height:1px;background:var(--accent);}
+    .proj-title{font-family:var(--serif);font-weight:400;letter-spacing:-.03em;margin:0 0 36px;font-size:clamp(3.2rem,9vw,8rem);line-height:1.02;}
+    .proj-title em{font-style:italic;color:var(--accent);}
+    .proj-meta{display:flex;flex-wrap:wrap;gap:40px;padding-top:32px;border-top:1px solid var(--line);}
+    .proj-meta-item{display:flex;flex-direction:column;gap:4px;}
+    .proj-meta-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+    .proj-meta-value{font-family:var(--serif);font-size:1.05rem;}
+
+    /* sections */
+    .sec{padding:clamp(64px,8vw,110px) 0;border-bottom:1px solid var(--line);}
+    .sec-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:20px;}
+    .sec-heading{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.025em;line-height:1.1;margin:0 0 24px;}
+    .sec-heading em{font-style:italic;}
+    .body-text{font-size:clamp(.95rem,1.3vw,1.05rem);line-height:1.8;color:var(--muted);margin:0;}
+
+    /* two-col */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:start;}
+    .two-col.center{align-items:center;}
+    @media(max-width:768px){.two-col{grid-template-columns:1fr;gap:32px;}}
+
+    /* media */
+    .full-media{display:flex;justify-content:center;}
+    .full-media img,.full-media video{width:100%;border-radius:var(--r);}
+    .media-stack{display:flex;flex-direction:column;gap:clamp(24px,3vw,40px);}
+    .media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,2.5vw,32px);}
+    .media-grid img,.media-grid video{width:100%;border-radius:var(--r);}
+
+    /* phone media — nunca passa do tamanho natural */
+    .phone-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(20px,3vw,40px);justify-items:center;}
+    .phone-row img,.phone-row video{width:100%;max-width:340px;border-radius:28px;}
+
+    .media-caption{font-size:.8rem;letter-spacing:.04em;color:var(--muted);margin-top:14px;text-align:center;}
+
+    /* explore nav */
+    .explore-label{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2vw,1.4rem);color:var(--muted);margin:0 0 40px;display:block;}
+    .explore-btns{display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+    .explore-btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--serif);font-size:clamp(1rem,1.8vw,1.25rem);padding:18px 32px;border-radius:100px;border:1.5px solid var(--line);transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease);}
+    .explore-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+    .explore-btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+    .explore-btn.primary:hover{background:var(--accent);border-color:var(--accent);}
+    .explore-btn svg{transition:transform .3s var(--ease);}
+    .explore-btn:hover svg{transform:translateX(3px);}
+  </style>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="index.html" class="back-btn" aria-label="Back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M10 6l-6 6 6 6"/></svg>
+        Back
+      </a>
+      <span class="nav-divider"></span>
+      <a href="index.html" class="brand-link">
+        <img src="avatar.png" alt="João Bosco" />
+        <span>João Bosco</span>
+      </a>
+      <span class="nav-spacer"></span>
+      <nav class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="proj-hero">
+      <div class="wrap">
+        <p class="proj-eyebrow reveal">Pinterest · Product Design</p>
+        <h1 class="proj-title reveal">Creator<br><em>Academy</em></h1>
+        <div class="proj-meta reveal" data-d="1">
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Client</span>
+            <span class="proj-meta-value">Pinterest</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Role</span>
+            <span class="proj-meta-value">Product Designer</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Scope</span>
+            <span class="proj-meta-value">E-learning · Gamification · UI Design</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTEXT -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col center" style="margin-bottom:clamp(40px,5vw,72px);">
+          <div class="reveal">
+            <span class="sec-label">Context</span>
+            <h2 class="sec-heading">Learning built for <em>creators</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">The scope was to design an e-learning platform from scratch for Pinterest creators, in order to increase engagement and adoption of new features. The challenge was to create a friendly, engaging and consistent experience for the 3 learning modules, also using gamification techniques.</p>
+          </div>
+        </div>
+        <div class="full-media reveal" data-d="2">
+          <img src="assets/pinterest/pin-cover.png" alt="Pinterest Creator Academy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- SITEMAP -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal" style="margin-bottom:clamp(32px,4vw,56px);">
+          <span class="sec-label">Sitemap</span>
+          <h2 class="sec-heading">Structuring the <em>journey</em></h2>
+        </div>
+        <div class="full-media reveal" data-d="1">
+          <img src="assets/pinterest/pin-sitemap.png" alt="Sitemap" />
+        </div>
+      </div>
+    </section>
+
+    <!-- USER FLOW AND WIREFRAMES -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal" style="margin-bottom:clamp(32px,4vw,56px);">
+          <span class="sec-label">User flow and wireframes</span>
+          <h2 class="sec-heading">From flow to <em>screen</em></h2>
+        </div>
+        <div class="media-stack reveal" data-d="1">
+          <img src="assets/pinterest/pin-flow-1.png" alt="User flow" />
+          <img src="assets/pinterest/pin-flow-2.png" alt="Wireframes" />
+        </div>
+      </div>
+    </section>
+
+    <!-- UI PRESENTATION -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal" style="margin-bottom:clamp(32px,4vw,56px);">
+          <span class="sec-label">UI Presentation</span>
+          <h2 class="sec-heading">The final <em>experience</em></h2>
+        </div>
+
+        <div class="media-stack">
+          <div class="full-media reveal">
+            <img src="assets/pinterest/pin-ui-1.png" alt="UI presentation" />
+          </div>
+
+          <div class="phone-row reveal" data-d="1">
+            <video autoplay loop muted playsinline>
+              <source src="assets/pinterest/pin-video-1.mp4" type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline>
+              <source src="assets/pinterest/pin-video-2.mp4" type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline>
+              <source src="assets/pinterest/pin-video-3.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <div class="media-grid reveal" data-d="2">
+            <img src="assets/pinterest/pin-ui-2.png" alt="UI detail" />
+            <img src="assets/pinterest/pin-ui-3.png" alt="UI detail" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEEP EXPLORING -->
+    <section class="sec" style="border-bottom:none;padding-bottom:clamp(80px,10vw,130px);">
+      <div class="wrap">
+        <span class="explore-label reveal">Want to see more?</span>
+        <div class="explore-btns reveal" data-d="1">
+          <a href="project-olx-quickwins.html" class="explore-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M10 6l-6 6 6 6"/></svg>
+            Previous project
+          </a>
+          <a href="index.html" class="explore-btn primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+            Back to home
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  </script>
+</body>
+</html>
