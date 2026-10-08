@@ -84,15 +84,16 @@
     @media(max-width:768px){.two-col{grid-template-columns:1fr;gap:32px;}}
 
     /* media */
-    .full-media{display:flex;justify-content:center;}
     .full-media img,.full-media video{width:100%;border-radius:var(--r);}
-    .media-stack{display:flex;flex-direction:column;gap:clamp(24px,3vw,40px);}
-    .media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,2.5vw,32px);}
-    .media-grid img,.media-grid video{width:100%;border-radius:var(--r);}
+    .media-stack{display:flex;flex-direction:column;gap:clamp(28px,3.5vw,48px);}
+    .media-stack img,.media-stack video{width:100%;border-radius:var(--r);}
+    .media-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.5vw,32px);}
+    .media-pair img{width:100%;border-radius:var(--r);}
+    @media(max-width:768px){.media-pair{grid-template-columns:1fr;}}
 
-    /* phone media — nunca passa do tamanho natural */
-    .phone-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(20px,3vw,40px);justify-items:center;}
-    .phone-row img,.phone-row video{width:100%;max-width:340px;border-radius:28px;}
+    /* vídeo vertical — nunca passa do tamanho natural */
+    .phone-media{display:flex;justify-content:center;}
+    .phone-media video{width:100%;max-width:340px;border-radius:28px;}
 
     .media-caption{font-size:.8rem;letter-spacing:.04em;color:var(--muted);margin-top:14px;text-align:center;}
 
@@ -166,7 +167,7 @@
           </div>
         </div>
         <div class="full-media reveal" data-d="2">
-          <img src="assets/pinterest/pin-cover.png" alt="Pinterest Creator Academy" />
+          <img src="assets/pinterest/pin-cover.png" alt="The three learning modules: Beginner, Intermediate and Pro" />
         </div>
       </div>
     </section>
@@ -178,8 +179,14 @@
           <span class="sec-label">Sitemap</span>
           <h2 class="sec-heading">Structuring the <em>journey</em></h2>
         </div>
-        <div class="full-media reveal" data-d="1">
-          <img src="assets/pinterest/pin-sitemap.png" alt="Sitemap" />
+        <div class="media-stack">
+          <div class="reveal" data-d="1">
+            <img src="assets/pinterest/pin-sitemap.webp" alt="Full sitemap" />
+          </div>
+          <div class="media-pair reveal" data-d="2">
+            <img src="assets/pinterest/pin-sitemap-detail-1.png" alt="Sitemap detail — account and beginner module" />
+            <img src="assets/pinterest/pin-sitemap-detail-2.png" alt="Sitemap detail — intermediate module" />
+          </div>
         </div>
       </div>
     </section>
@@ -191,9 +198,18 @@
           <span class="sec-label">User flow and wireframes</span>
           <h2 class="sec-heading">From flow to <em>screen</em></h2>
         </div>
-        <div class="media-stack reveal" data-d="1">
-          <img src="assets/pinterest/pin-flow-1.png" alt="User flow" />
-          <img src="assets/pinterest/pin-flow-2.png" alt="Wireframes" />
+        <div class="media-stack">
+          <div class="reveal" data-d="1">
+            <img src="assets/pinterest/pin-userflow.png" alt="User flow" />
+          </div>
+          <div class="media-pair reveal" data-d="2">
+            <img src="assets/pinterest/pin-wireframes-1.png" alt="Wireframes — validation and accession" />
+            <img src="assets/pinterest/pin-wireframes-2.png" alt="Wireframes — account, support and modules" />
+          </div>
+          <div class="media-pair reveal" data-d="3">
+            <img src="assets/pinterest/pin-wireframes-3.png" alt="Wireframes — module content" />
+            <img src="assets/pinterest/pin-wireframes-4.png" alt="Wireframes — quiz detail" />
+          </div>
         </div>
       </div>
     </section>
@@ -207,25 +223,30 @@
         </div>
 
         <div class="media-stack">
-          <div class="full-media reveal">
-            <img src="assets/pinterest/pin-ui-1.png" alt="UI presentation" />
+          <div class="reveal">
+            <img src="assets/pinterest/pin-ui-beginner.png" alt="Beginner module — How to start" />
+          </div>
+          <div class="reveal" data-d="1">
+            <img src="assets/pinterest/pin-ui-intermediate.png" alt="Intermediate module — How to improve" />
+          </div>
+          <div class="reveal" data-d="2">
+            <img src="assets/pinterest/pin-ui-pro.png" alt="Pro module — How to be a Pro" />
           </div>
 
-          <div class="phone-row reveal" data-d="1">
-            <video autoplay loop muted playsinline>
-              <source src="assets/pinterest/pin-video-1.mp4" type="video/mp4" />
-            </video>
+          <div class="reveal">
             <video autoplay loop muted playsinline>
               <source src="assets/pinterest/pin-video-2.mp4" type="video/mp4" />
             </video>
+          </div>
+          <div class="reveal">
             <video autoplay loop muted playsinline>
               <source src="assets/pinterest/pin-video-3.mp4" type="video/mp4" />
             </video>
           </div>
-
-          <div class="media-grid reveal" data-d="2">
-            <img src="assets/pinterest/pin-ui-2.png" alt="UI detail" />
-            <img src="assets/pinterest/pin-ui-3.png" alt="UI detail" />
+          <div class="phone-media reveal">
+            <video autoplay loop muted playsinline>
+              <source src="assets/pinterest/pin-video-1.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
       </div>
