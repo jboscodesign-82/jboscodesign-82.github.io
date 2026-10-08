@@ -111,7 +111,9 @@
     /* media */
     .full-media img,.full-media video{width:100%;border-radius:var(--r);}
     .media-stack{display:flex;flex-direction:column;gap:clamp(28px,3.5vw,48px);}
-    .media-stack img{width:100%;border-radius:var(--r);}
+    .media-stack img,.media-stack video{width:100%;border-radius:var(--r);}
+    .media-portrait{display:flex;justify-content:center;}
+    .media-portrait video{width:100%;border-radius:var(--r);}
     .media-caption{font-size:.8rem;line-height:1.6;color:var(--muted);margin-top:14px;}
 
     /* galeria */
@@ -205,7 +207,9 @@
     <section class="sec" style="padding-top:clamp(40px,5vw,72px);padding-bottom:clamp(40px,5vw,72px);">
       <div class="wrap">
         <div class="full-media reveal">
-          <img src="assets/visual-language/vl-cover.gif" alt="The new language on the website's home page" />
+          <video autoplay loop muted playsinline aria-label="The new language on the website's home page">
+            <source src="assets/visual-language/vl-cover.mp4" type="video/mp4" />
+          </video>
           <p class="media-caption">The new language on the website's home page.</p>
         </div>
       </div>
@@ -293,8 +297,10 @@
             </div>
           </div>
 
-          <div class="full-media reveal" style="margin-top:clamp(40px,5vw,64px);">
-            <img src="assets/visual-language/vl-principles-social.gif" alt="Animation shared on social media with the created principles" />
+          <div class="media-portrait reveal" style="margin-top:clamp(40px,5vw,64px);">
+            <video autoplay loop muted playsinline aria-label="Animation shared on social media with the created principles" style="max-width:560px;">
+            <source src="assets/visual-language/vl-principles-social.mp4" type="video/mp4" />
+          </video>
             <p class="media-caption">The design team posted an animation on social media to share the created principles.</p>
           </div>
         </div>
@@ -595,10 +601,14 @@
             <p class="body-text">After adapting the first version throughout the journey, we decided to make a high-fidelity prototype to present to the company, as we consider the use of microinteractions and dynamic images to be of great importance in the application of the new language.</p>
           </div>
         </div>
-        <div class="media-stack reveal" data-d="2">
-          <img src="assets/visual-language/vl-ui-1.gif" alt="High-fidelity prototype of the new UI" />
+        <div class="media-stack reveal" data-d="2" style="align-items:center;">
+          <video autoplay loop muted playsinline aria-label="High-fidelity prototype of the new UI" style="max-width:600px;">
+            <source src="assets/visual-language/vl-ui-1.mp4" type="video/mp4" />
+          </video>
           <div>
-            <img src="assets/visual-language/vl-ui-2.gif" alt="Campaign and banner pieces aligned with the new principles" />
+            <video autoplay loop muted playsinline aria-label="Campaign and banner pieces aligned with the new principles" style="max-width:500px;">
+            <source src="assets/visual-language/vl-ui-2.mp4" type="video/mp4" />
+          </video>
             <p class="media-caption">Parts of campaigns and banners aligned with the new principles and fundamentals used in the product.</p>
           </div>
         </div>
