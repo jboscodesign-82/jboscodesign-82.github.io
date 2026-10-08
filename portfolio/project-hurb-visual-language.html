@@ -112,6 +112,8 @@
     .full-media img,.full-media video{width:100%;border-radius:var(--r);}
     .media-stack{display:flex;flex-direction:column;gap:clamp(28px,3.5vw,48px);}
     .media-stack img,.media-stack video{width:100%;border-radius:var(--r);}
+    .video-embed{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--bg-2);}
+    .video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
     .media-portrait{display:flex;justify-content:center;}
     .media-portrait video{width:100%;border-radius:var(--r);}
     .media-caption{font-size:.8rem;line-height:1.6;color:var(--muted);margin-top:14px;}
@@ -611,6 +613,21 @@
           </video>
             <p class="media-caption">Parts of campaigns and banners aligned with the new principles and fundamentals used in the product.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="video-embed reveal">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/C4-esE8mHgQ"
+            title="New Visual Language — Hurb"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
         </div>
       </div>
     </section>
