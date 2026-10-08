@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Visual Language — Hurb · João Bosco</title>
+  <meta name="description" content="Creating, validating and delivering a new visual language for Hurb — design principles, research and a renewed design system." />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#ffffff; --bg-2:#f4f4f4;
+      --ink:#111111; --muted:#888888;
+      --line:rgba(0,0,0,.10);
+      --accent:#ff4c24;
+      --max:1280px;
+      --serif:"Newsreader",Georgia,"Times New Roman",serif;
+      --sans:"Roboto",-apple-system,BlinkMacSystemFont,sans-serif;
+      --ease:cubic-bezier(.22,.61,.36,1);
+      --r:16px;
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+    body{margin:0;background-color:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none;}
+    img,video{display:block;max-width:100%;}
+    ::selection{background:var(--accent);color:#fff;}
+    .wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px;}
+    @media(max-width:640px){.wrap{padding:0 20px;}}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .85s var(--ease),transform .85s var(--ease);}
+    .reveal.in{opacity:1;transform:none;}
+    .reveal[data-d="1"]{transition-delay:.1s;}
+    .reveal[data-d="2"]{transition-delay:.2s;}
+    .reveal[data-d="3"]{transition-delay:.3s;}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;}}
+
+    /* header */
+    header.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s var(--ease),border-color .4s var(--ease),backdrop-filter .4s var(--ease);border-bottom:1px solid transparent;}
+    header.nav.scrolled{background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+    .nav-inner{display:flex;align-items:center;height:76px;gap:20px;}
+    .back-btn{display:flex;align-items:center;gap:7px;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);flex:none;transition:color .3s var(--ease);}
+    .back-btn:hover{color:var(--ink);}
+    .back-btn svg{transition:transform .3s var(--ease);}
+    .back-btn:hover svg{transform:translateX(-3px);}
+    .nav-divider{width:1px;height:18px;background:var(--line);flex:none;}
+    .brand-link{display:flex;align-items:center;gap:10px;flex:none;}
+    .brand-link img{width:36px;height:36px;border-radius:50%;object-fit:cover;}
+    .brand-link span{font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:-.01em;white-space:nowrap;}
+    .nav-spacer{flex:1;}
+    .nav-links{display:flex;gap:36px;}
+    .nav-links a{font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);position:relative;}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease);}
+    .nav-links a:hover{color:var(--accent);}
+    .nav-links a:hover::after{transform:scaleX(1);transform-origin:left;}
+    @media(max-width:720px){.nav-links{display:none;}}
+
+    /* hero */
+    .proj-hero{padding:clamp(130px,16vw,200px) 0 clamp(60px,8vw,100px);border-bottom:1px solid var(--line);}
+    .proj-eyebrow{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 28px;display:flex;align-items:center;gap:10px;}
+    .proj-eyebrow::before{content:"";display:block;width:24px;height:1px;background:var(--accent);}
+    .proj-title{font-family:var(--serif);font-weight:400;letter-spacing:-.03em;margin:0 0 36px;font-size:clamp(3rem,8vw,7rem);line-height:1.02;}
+    .proj-title em{font-style:italic;color:var(--accent);}
+    .proj-lede{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);line-height:1.5;color:var(--muted);max-width:40ch;margin:0 0 36px;}
+    .proj-meta{display:flex;flex-wrap:wrap;gap:40px;padding-top:32px;border-top:1px solid var(--line);}
+    .proj-meta-item{display:flex;flex-direction:column;gap:4px;}
+    .proj-meta-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+    .proj-meta-value{font-family:var(--serif);font-size:1.05rem;}
+
+    /* sections */
+    .sec{padding:clamp(64px,8vw,110px) 0;border-bottom:1px solid var(--line);}
+    .sec-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:20px;}
+    .sec-heading{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.025em;line-height:1.1;margin:0 0 24px;}
+    .sec-heading em{font-style:italic;}
+    .sub-heading{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,2vw,1.6rem);letter-spacing:-.02em;line-height:1.2;margin:0 0 14px;}
+    .body-text{font-size:clamp(.95rem,1.3vw,1.05rem);line-height:1.8;color:var(--muted);margin:0;}
+    .body-text+.body-text{margin-top:1em;}
+
+    /* two-col */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:start;}
+    .two-col.center{align-items:center;}
+    @media(max-width:768px){.two-col{grid-template-columns:1fr;gap:32px;}}
+
+    /* sub-section */
+    .sub-sec{padding:clamp(48px,6vw,80px) 0;border-top:1px solid var(--line);}
+    .sub-sec:first-child{border-top:none;padding-top:0;}
+
+    /* listas */
+    .bullet-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
+    .bullet-list li{display:flex;gap:12px;font-size:clamp(.9rem,1.3vw,1rem);line-height:1.7;color:var(--muted);}
+    .bullet-list li::before{content:"";display:block;width:6px;height:6px;background:var(--accent);border-radius:50%;flex:none;margin-top:.55em;}
+    .bullet-list li strong{color:var(--ink);font-weight:500;}
+
+    /* principles */
+    .principle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+    .principle-card{background:var(--bg-2);border-radius:var(--r);padding:28px 24px;display:flex;flex-direction:column;gap:12px;}
+    .principle-num{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--accent);line-height:1;}
+    .principle-name{font-family:var(--serif);font-size:1.1rem;line-height:1.25;margin:0;}
+
+    /* steps */
+    .step-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px;}
+    .step-item{border-top:2px solid var(--accent);padding-top:16px;}
+    .step-name{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);display:block;margin-bottom:8px;}
+    .step-body{font-size:.88rem;line-height:1.65;color:var(--muted);margin:0;}
+
+    /* media */
+    .full-media img,.full-media video{width:100%;border-radius:var(--r);}
+    .media-stack{display:flex;flex-direction:column;gap:clamp(28px,3.5vw,48px);}
+    .media-stack img{width:100%;border-radius:var(--r);}
+    .media-caption{font-size:.8rem;line-height:1.6;color:var(--muted);margin-top:14px;}
+
+    /* galeria */
+    .gallery-head{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:24px;}
+    .gallery-outer{overflow:hidden;border-radius:var(--r);background:var(--bg);}
+    .gallery-track{display:flex;transition:transform .65s var(--ease);}
+    .gallery-track img{flex:none;width:100%;object-fit:contain;background:var(--bg);aspect-ratio:16/10;}
+    .gallery-arrows{display:flex;gap:10px;flex:none;}
+    .gallery-arrow{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .25s,border-color .25s,color .25s;color:var(--ink);}
+    .gallery-arrow:hover{background:var(--ink);border-color:var(--ink);color:var(--bg);}
+    .gallery-dots{display:flex;justify-content:center;gap:8px;margin-top:16px;}
+    .gallery-dot{width:6px;height:6px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .3s,transform .3s;border:none;padding:0;}
+    .gallery-dot.active{background:var(--ink);transform:scale(1.4);}
+
+    /* stats */
+    .ab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:640px){.ab-grid{grid-template-columns:1fr;}}
+    .ab-card{background:var(--bg-2);border-radius:var(--r);padding:32px 24px 28px;}
+    .ab-value{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.03em;line-height:1;margin:0 0 10px;}
+    .ab-value .ab-pfx,.ab-value .ab-num,.ab-value .ab-sfx{color:var(--accent);}
+    .ab-desc{font-size:.85rem;color:var(--muted);line-height:1.6;margin:0;}
+
+    /* pergunta destacada */
+    .question-block{background:var(--bg-2);border-radius:var(--r);padding:36px 40px;}
+    .question-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px;}
+    .question-list li{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.5;color:var(--ink);}
+
+    /* explore nav */
+    .explore-label{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2vw,1.4rem);color:var(--muted);margin:0 0 40px;display:block;}
+    .explore-btns{display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+    .explore-btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--serif);font-size:clamp(1rem,1.8vw,1.25rem);padding:18px 32px;border-radius:100px;border:1.5px solid var(--line);transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease);}
+    .explore-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+    .explore-btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+    .explore-btn.primary:hover{background:var(--accent);border-color:var(--accent);}
+    .explore-btn svg{transition:transform .3s var(--ease);}
+    .explore-btn:hover svg{transform:translateX(3px);}
+  </style>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="index.html" class="back-btn" aria-label="Back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M10 6l-6 6 6 6"/></svg>
+        Back
+      </a>
+      <span class="nav-divider"></span>
+      <a href="index.html" class="brand-link">
+        <img src="avatar.png" alt="João Bosco" />
+        <span>João Bosco</span>
+      </a>
+      <span class="nav-spacer"></span>
+      <nav class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="proj-hero">
+      <div class="wrap">
+        <p class="proj-eyebrow reveal">Hurb · Design Systems</p>
+        <h1 class="proj-title reveal">New Visual<br><em>Language</em></h1>
+        <p class="proj-lede reveal" data-d="1">The challenges of creating, validating and delivering the first release of a new visual language.</p>
+        <div class="proj-meta reveal" data-d="2">
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Client</span>
+            <span class="proj-meta-value">Hurb</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Year</span>
+            <span class="proj-meta-value">2020 – 2021</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Role</span>
+            <span class="proj-meta-value">Product Designer</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Scope</span>
+            <span class="proj-meta-value">Design Principles · Research · Visual Language · Design System</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COVER -->
+    <section class="sec" style="padding-top:clamp(40px,5vw,72px);padding-bottom:clamp(40px,5vw,72px);">
+      <div class="wrap">
+        <div class="full-media reveal">
+          <img src="assets/visual-language/vl-cover.gif" alt="The new language on the website's home page" />
+          <p class="media-caption">The new language on the website's home page.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTEXT -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col">
+          <div class="reveal">
+            <span class="sec-label">Context</span>
+            <h2 class="sec-heading">One brand, <em>two languages</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">In 2020, Hurb was expanding, adapting its business and technology to an internationalization project, to sell dreams to travelers from all over the planet. At the same time, the product design team was testing and tweaking their component library to kick-start their first Design System.</p>
+            <p class="body-text">Another relevant scenario was the lack of communication between the product design and marketing teams, creating usability problems on platforms and inconsistency in the application of the visual identity.</p>
+            <p class="body-text">Before continuing with the first library, we then decided that we would need to review the entire visual language collaboratively, making it more universal and up-to-date, translating the brand's values and personality.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="sub-sec">
+          <div class="two-col" style="margin-bottom:clamp(40px,5vw,64px);">
+            <div class="reveal">
+              <span class="sec-label">Principles</span>
+              <h2 class="sec-heading">Starting with the <em>principles</em></h2>
+            </div>
+            <div class="reveal" data-d="1">
+              <p class="body-text">To get the project off the ground, we decided to create our design principles. We gathered existing branding and persona studies with feedback and updated user reviews at CFV (Traveler Happiness Center — call center), Reclame Aqui and App stores.</p>
+            </div>
+          </div>
+
+          <div class="reveal" style="margin-bottom:clamp(40px,5vw,64px);">
+            <p class="body-text" style="margin-bottom:28px;">We carried out a dynamic with the entire design team — product and marketing — divided into 4 stages:</p>
+            <div class="step-grid">
+              <div class="step-item">
+                <span class="step-name">Introduction</span>
+                <p class="step-body">What are the principles and presentation of the collected material.</p>
+              </div>
+              <div class="step-item">
+                <span class="step-name">Ideation</span>
+                <p class="step-body">What should we do for the user vs. what should we not do.</p>
+              </div>
+              <div class="step-item">
+                <span class="step-name">Definition</span>
+                <p class="step-body">Name of the principles chosen.</p>
+              </div>
+              <div class="step-item">
+                <span class="step-name">Prioritizing</span>
+                <p class="step-body">Maslow's Hierarchy dynamics.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery reveal" style="margin-bottom:clamp(40px,5vw,64px);">
+            <div class="gallery-head">
+              <h3 class="sub-heading" style="margin-bottom:0;">The workshop</h3>
+              <div class="gallery-arrows">
+                <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+              </div>
+            </div>
+            <div class="gallery-outer">
+              <div class="gallery-track">
+                <img src="assets/visual-language/vl-principles-research.png" alt="The principles should be related to the perception of the company and the public" />
+                <img src="assets/visual-language/vl-principles-voting.png" alt="Voting and naming the 5 principles" />
+                <img src="assets/visual-language/vl-principles-maslow.png" alt="Prioritizing the principles with the Maslow pyramid" />
+              </div>
+            </div>
+            <div class="gallery-dots"></div>
+          </div>
+
+          <div class="reveal">
+            <h3 class="sub-heading" style="margin-bottom:24px;">The five principles</h3>
+            <div class="principle-grid">
+              <div class="principle-card"><span class="principle-num">01</span><p class="principle-name">Be clear and objective</p></div>
+              <div class="principle-card"><span class="principle-num">02</span><p class="principle-name">Be honest</p></div>
+              <div class="principle-card"><span class="principle-num">03</span><p class="principle-name">Stay close to the traveler</p></div>
+              <div class="principle-card"><span class="principle-num">04</span><p class="principle-name">Be consistent</p></div>
+              <div class="principle-card"><span class="principle-num">05</span><p class="principle-name">Do more with less</p></div>
+            </div>
+          </div>
+
+          <div class="full-media reveal" style="margin-top:clamp(40px,5vw,64px);">
+            <img src="assets/visual-language/vl-principles-social.gif" alt="Animation shared on social media with the created principles" />
+            <p class="media-caption">The design team posted an animation on social media to share the created principles.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUDIT -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col" style="margin-bottom:clamp(40px,5vw,64px);">
+          <div class="reveal">
+            <span class="sec-label">Audit</span>
+            <h2 class="sec-heading">Analyzing all that <em>we already had</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">We gathered all the screens and interface components following the purchase flow, advertising pieces and banners and highlighted all the points where we could apply the principles, analyzing the fundamentals — colors, shapes, typography and spacing — the photography and even the tone of voice in applying the texts.</p>
+          </div>
+        </div>
+        <div class="gallery reveal" data-d="2">
+          <div class="gallery-head">
+            <h3 class="sub-heading" style="margin-bottom:0;">What we found</h3>
+            <div class="gallery-arrows">
+              <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+              <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
+          </div>
+          <div class="gallery-outer">
+            <div class="gallery-track">
+              <img src="assets/visual-language/vl-audit-pieces.png" alt="Highlighted parts of the interface and advertising pieces needing the principles" />
+              <img src="assets/visual-language/vl-audit-home.png" alt="Responsive home screens" />
+            </div>
+          </div>
+          <div class="gallery-dots"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOODBOARD -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col" style="margin-bottom:clamp(32px,4vw,56px);">
+          <div class="reveal">
+            <span class="sec-label">Inspiration</span>
+            <h2 class="sec-heading">Creating our <em>moodboard</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">We proposed a new dynamic for raising brands that apply one or more of these principles. For this exercise, we focused on interfaces for the product team and advertising for the branding team. In order to differentiate from other players, we brought companies from different segments, such as fintechs, marketplace and real estate market.</p>
+          </div>
+        </div>
+        <div class="full-media reveal" data-d="2">
+          <img src="assets/visual-language/vl-moodboard.png" alt="Moodboard associated with each of the five principles" />
+          <p class="media-caption">We associated the pieces collected in the moodboard with each of our 5 principles.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CO-CREATION -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col" style="margin-bottom:clamp(32px,4vw,56px);">
+          <div class="reveal">
+            <span class="sec-label">Co-creation</span>
+            <h2 class="sec-heading">All <em>hands-on</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">After mapping the points for improvement and still inspired by the examples on the moodboard, we carried out a co-creation exercise for the homepage of the site, as it is the traveler's main point of discovery, exploring new paths and approaches, with the application of the principles created.</p>
+          </div>
+        </div>
+        <div class="full-media reveal" data-d="2">
+          <img src="assets/visual-language/vl-cocreation.png" alt="Screens created in the co-creation exercise" />
+          <p class="media-caption">Screens created in the co-creation exercise for the website's homepage.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUNDAMENTALS -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal" style="margin-bottom:clamp(40px,5vw,64px);">
+          <span class="sec-label">Fundamentals</span>
+          <h2 class="sec-heading">Reviewing the <em>fundamentals</em></h2>
+          <p class="body-text" style="max-width:62ch;">We identified some visual patterns on the screens presented — the use of colors, iconography, illustration and spacing — and with that we already had some guidelines for a new language.</p>
+        </div>
+
+        <!-- Colors -->
+        <div class="sub-sec">
+          <div class="two-col" style="margin-bottom:clamp(32px,4vw,48px);">
+            <div class="reveal">
+              <h3 class="sub-heading">Colors and graphics</h3>
+            </div>
+            <div class="reveal" data-d="1">
+              <p class="body-text">We recreated the brand's institutional color, making it more lively and contemporary. We decided that it would also be the primary color, with its variations in use, adding more identity and simplicity to the pieces. We added complementary colors and graphics, associated with the destinations most desired by our travelers.</p>
+            </div>
+          </div>
+          <div class="media-stack reveal" data-d="2">
+            <div>
+              <img src="assets/visual-language/vl-colors-primary.png" alt="New primary color variations" />
+              <p class="media-caption">New primary color variations.</p>
+            </div>
+            <div>
+              <img src="assets/visual-language/vl-colors-destinations.jpeg" alt="Colors and graphics inspired by the most sought-after destinations" />
+              <p class="media-caption">Colors and graphics inspired by the most sought-after destinations by travelers.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spacing & Typography -->
+        <div class="sub-sec">
+          <div class="two-col center">
+            <div class="reveal">
+              <h3 class="sub-heading">Spacing &amp; typography</h3>
+              <p class="body-text">We used the 8pt grid to define the spacing of the interface elements and for the typographic application.</p>
+            </div>
+            <div class="reveal" data-d="1">
+              <img src="assets/visual-language/vl-typography.png" alt="Study of responsive application of paragraphs" style="width:100%;border-radius:var(--r);" />
+              <p class="media-caption">Study of responsive application of paragraphs.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Illustration -->
+        <div class="sub-sec">
+          <div class="two-col center">
+            <div class="reveal">
+              <h3 class="sub-heading">Illustration</h3>
+              <p class="body-text">We did a dynamic to define the illustration style, using the brand's principles and personality, and adapted the colors and shapes — mixing some illustration styles and creating a library of our own to facilitate the application by the team.</p>
+            </div>
+            <div class="reveal" data-d="1">
+              <img src="assets/visual-language/vl-illustration.png" alt="Illustration highlighting navigation by traveler profile" style="width:100%;border-radius:var(--r);" />
+              <p class="media-caption">Use of the illustration to highlight the navigation by traveler profile.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALIDATION -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal" style="margin-bottom:clamp(40px,5vw,64px);">
+          <span class="sec-label">Validation</span>
+          <h2 class="sec-heading">And now, how to <em>validate it?</em></h2>
+          <p class="body-text" style="max-width:62ch;margin-bottom:36px;">With all fundamentals reviewed and elements adapted, we raised some points of attention to validate the new aesthetic with our users.</p>
+          <div class="question-block">
+            <ul class="question-list">
+              <li>Is the new interface related to the principles created, from the point of view of the traveler?</li>
+              <li>Will the older audience find a cleaner, more contemporary approach strange?</li>
+              <li>Will the user perceive the product to be more expensive, or to be related to another category?</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Online survey -->
+        <div class="sub-sec">
+          <div class="two-col" style="margin-bottom:clamp(32px,4vw,48px);">
+            <div class="reveal">
+              <h3 class="sub-heading">Online survey</h3>
+            </div>
+            <div class="reveal" data-d="1">
+              <p class="body-text">Applying the first impression test, which aims to help us understand how people feel about a concept, interface or experience, we chose some adjectives from Microsoft's Product Reaction Cards scale, related to the principles and questions raised. We asked users to mark 5 or more words that described the new interface and then asked what they thought of the new aesthetic. We reached 300,000 users in our base, separated into 2 age groups, using the UsabilityHub platform.</p>
+            </div>
+          </div>
+          <div class="gallery reveal" data-d="2">
+            <div class="gallery-head">
+              <span class="sec-label" style="margin-bottom:0;">Survey</span>
+              <div class="gallery-arrows">
+                <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+              </div>
+            </div>
+            <div class="gallery-outer">
+              <div class="gallery-track">
+                <img src="assets/visual-language/vl-survey-test.png" alt="Users chose the words that best described the new interface" />
+                <img src="assets/visual-language/vl-survey-words.png" alt="Family friendly, Relaxed and Purposeful in the top 5 most voted words" />
+                <img src="assets/visual-language/vl-survey-data.png" alt="Quantitative poll data showing strong approval" />
+              </div>
+            </div>
+            <div class="gallery-dots"></div>
+          </div>
+        </div>
+
+        <!-- Card sorting -->
+        <div class="sub-sec">
+          <div class="two-col" style="margin-bottom:clamp(32px,4vw,48px);">
+            <div class="reveal">
+              <h3 class="sub-heading">Card sorting</h3>
+            </div>
+            <div class="reveal" data-d="1">
+              <p class="body-text">Using the same methodology and user profiles, we also applied card sorting research. The difference of this dynamic is that we also showed some interface variations created in the co-creation, following the new principles.</p>
+            </div>
+          </div>
+          <div class="gallery reveal" data-d="2">
+            <div class="gallery-head">
+              <span class="sec-label" style="margin-bottom:0;">Card sorting</span>
+              <div class="gallery-arrows">
+                <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+              </div>
+            </div>
+            <div class="gallery-outer">
+              <div class="gallery-track">
+                <img src="assets/visual-language/vl-cardsorting.png" alt="Card sorting with recruited user groups" />
+                <img src="assets/visual-language/vl-cardsorting-words.png" alt="Clear and objective among the most chosen words" />
+              </div>
+            </div>
+            <div class="gallery-dots"></div>
+          </div>
+        </div>
+
+        <!-- Research at a glance -->
+        <div class="sub-sec">
+          <div class="reveal" style="margin-bottom:28px;">
+            <h3 class="sub-heading">Research at a glance</h3>
+          </div>
+          <div class="ab-grid">
+            <div class="ab-card reveal">
+              <p class="ab-value"><span class="ab-num" data-target="300">0</span><span class="ab-sfx">K</span></p>
+              <p class="ab-desc">Users reached in the online survey, split into 2 age groups</p>
+            </div>
+            <div class="ab-card reveal" data-d="1">
+              <p class="ab-value"><span class="ab-num" data-target="5">0</span></p>
+              <p class="ab-desc">Design principles defined collaboratively</p>
+            </div>
+            <div class="ab-card reveal" data-d="2">
+              <p class="ab-value"><span class="ab-num" data-target="20">0</span><span class="ab-sfx">%</span></p>
+              <p class="ab-desc">Of the base exposed in the quantitative A/B test</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="sub-sec">
+          <div class="two-col">
+            <div class="reveal">
+              <h3 class="sub-heading">Results online and in person</h3>
+              <ul class="bullet-list">
+                <li><strong>"Objective"</strong>, tied to principle 1, appears in the top 5 of both polls.</li>
+                <li><strong>"Simple" and "Clean"</strong>, tied to principle 5, are in the top 3 of the qualitative research.</li>
+                <li><strong>"Family" and "Relaxed"</strong>, tied to principle 3, are in the top 2 of the quantitative research.</li>
+                <li><strong>"Trustworthy"</strong>, tied to principle 2, is in the top 5 among 25–44 year olds.</li>
+              </ul>
+            </div>
+            <div class="reveal" data-d="1">
+              <h3 class="sub-heading">Findings and attention points</h3>
+              <ul class="bullet-list">
+                <li>The cleaner, more objective interface transmits more calm and confidence to the traveler.</li>
+                <li>One layout variation, with an inspiring photo in the background, aroused greater interest for some profiles than the illustration version.</li>
+                <li>Even in an exercise emphasizing aesthetics, several chosen words related to the screen's textual content.</li>
+                <li>Timers and FOMO incentives generate anxiety and are often perceived as misleading — though the site's promotions are well regarded.</li>
+                <li>The new approach was well accepted by the older audience.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantitative -->
+        <div class="sub-sec">
+          <div class="two-col">
+            <div class="reveal">
+              <h3 class="sub-heading">What about quantitative validation?</h3>
+            </div>
+            <div class="reveal" data-d="1">
+              <p class="body-text">We also did a quantitative test using Optimize, launching the new version to 20% of the base, in the 2 geographic regions with the highest access and revenue. We tracked revenue, average value per session, abandonment rate and number of hits to product pages and search as metrics. The overall result of the experiment was satisfactory, so we decided to bet on the adoption of the new language, believing it to be more in line with the company's current business strategy and the needs of our users.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DELIVERY -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col" style="margin-bottom:clamp(32px,4vw,56px);">
+          <div class="reveal">
+            <span class="sec-label">Delivery</span>
+            <h2 class="sec-heading">How we planned the <em>first delivery</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">To speed up the first delivery, each designer was responsible for applying the new fundamentals to the Figma screens of their respective team, documenting a new component if necessary. At the same time, there was a reassessment of the organization of the design system, in order to make its application more intuitive, universal and flexible.</p>
+          </div>
+        </div>
+        <div class="full-media reveal" data-d="2">
+          <img src="assets/visual-language/vl-design-system.png" alt="Updated style of existing design system components" />
+          <p class="media-caption">We updated the style of components that already existed in the design system.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW UI -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col" style="margin-bottom:clamp(32px,4vw,56px);">
+          <div class="reveal">
+            <span class="sec-label">The new UI</span>
+            <h2 class="sec-heading">Introducing the <em>new language</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">After adapting the first version throughout the journey, we decided to make a high-fidelity prototype to present to the company, as we consider the use of microinteractions and dynamic images to be of great importance in the application of the new language.</p>
+          </div>
+        </div>
+        <div class="media-stack reveal" data-d="2">
+          <img src="assets/visual-language/vl-ui-1.gif" alt="High-fidelity prototype of the new UI" />
+          <div>
+            <img src="assets/visual-language/vl-ui-2.gif" alt="Campaign and banner pieces aligned with the new principles" />
+            <p class="media-caption">Parts of campaigns and banners aligned with the new principles and fundamentals used in the product.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNINGS -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="two-col">
+          <div class="reveal">
+            <span class="sec-label">Learnings</span>
+            <h2 class="sec-heading">Challenges and <em>learning</em></h2>
+          </div>
+          <div class="reveal" data-d="1">
+            <p class="body-text">It was a great challenge for the entire design team to justify the need to create a new visual language for some areas of the company. The results of quantitative and qualitative research helped a lot with this argument.</p>
+            <p class="body-text">The internationalization project required the technology team to spend several months adapting the entire development part, which allowed us to carry out research and dynamics during this period, without compromising the recurring deliveries of each team.</p>
+            <p class="body-text">Another challenge was to define the metrics to validate the new language through A/B testing, since it is a product and branding project involving several subjective factors. We also changed several elements on the same screen, which makes it difficult to understand what performed well on the page. So the focus of this type of test was to monitor key business metrics, checking whether there would be any rejection in the flow and observing user behavior in session recordings.</p>
+            <p class="body-text">As we wanted to make a first delivery agile and in line with the project schedule, we initially decided to use some free or low-investment resources to define our foundations, always with the concern of being aligned with the brand's principles and personality.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEEP EXPLORING -->
+    <section class="sec" style="border-bottom:none;padding-bottom:clamp(80px,10vw,130px);">
+      <div class="wrap">
+        <span class="explore-label reveal">Let's keep exploring.</span>
+        <div class="explore-btns reveal" data-d="1">
+          <a href="project-pinterest-creator-academy.html" class="explore-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M10 6l-6 6 6 6"/></svg>
+            Previous project
+          </a>
+          <a href="index.html" class="explore-btn primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+            Back to home
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+    // galeria — cada instância é independente
+    document.querySelectorAll('.gallery').forEach(function(g){
+      var track = g.querySelector('.gallery-track');
+      var dotsEl = g.querySelector('.gallery-dots');
+      var total = track.children.length;
+      if(total < 2) return;
+      var cur = 0, timer;
+
+      for(var i=0;i<total;i++){
+        var d = document.createElement('button');
+        d.className = 'gallery-dot' + (i===0 ? ' active' : '');
+        d.dataset.i = i;
+        d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+        dotsEl.appendChild(d);
+      }
+
+      function start(){ clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 5000); }
+      function goTo(n){
+        cur = (n + total) % total;
+        track.style.transform = 'translateX(-' + (cur*100) + '%)';
+        dotsEl.querySelectorAll('.gallery-dot').forEach(function(d,idx){ d.classList.toggle('active', idx===cur); });
+        start();
+      }
+
+      g.querySelectorAll('.gallery-arrow').forEach(function(btn){
+        btn.addEventListener('click', function(){ goTo(cur + parseInt(btn.dataset.dir,10)); });
+      });
+      dotsEl.addEventListener('click', function(e){
+        var d = e.target.closest('.gallery-dot');
+        if(d) goTo(parseInt(d.dataset.i,10));
+      });
+
+      g.addEventListener('mouseenter', function(){ clearInterval(timer); });
+      g.addEventListener('mouseleave', start);
+
+      start();
+    });
+
+    // contadores
+    (function(){
+      var nums = document.querySelectorAll('.ab-num');
+      if(!nums.length) return;
+      function animate(el){
+        var target = parseFloat(el.dataset.target);
+        var isFloat = target !== Math.floor(target);
+        var dur = 1600, start = performance.now();
+        function ease(t){ return 1-Math.pow(1-t,3); }
+        (function frame(now){
+          var t = Math.min((now-start)/dur,1);
+          var v = ease(t)*target;
+          el.textContent = isFloat ? v.toFixed(1) : Math.round(v);
+          if(t<1) requestAnimationFrame(frame);
+        })(performance.now());
+      }
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ animate(e.target); obs.unobserve(e.target); } });
+      }, {threshold:0.5});
+      nums.forEach(function(el){ obs.observe(el); });
+    })();
+  </script>
+</body>
+</html>
