@@ -127,9 +127,11 @@
 
     /* ---- gallery ---- */
     .gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
-    .gallery-outer{overflow:hidden;border-radius:var(--r);}
+    .gallery{max-width:1000px;margin-inline:auto;}
+    .gallery-outer{overflow:hidden;border-radius:var(--r);border:1px solid var(--line);}
     .gallery-track{display:flex;transition:transform .65s var(--ease);}
-    .gallery-track img{flex:none;width:100%;object-fit:contain;background:var(--bg);aspect-ratio:16/9;}
+    .gallery-track .gal-slide{flex:none;width:100%;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:clamp(8px,1.2vw,20px);}
+    .gallery-track .gal-slide img{width:auto;height:auto;max-width:100%;max-height:100%;border-radius:8px;}
     .gallery-arrows{display:flex;gap:10px;}
     .gallery-arrow{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .25s,border-color .25s,color .25s;color:var(--ink);}
     .gallery-arrow:hover{background:var(--ink);border-color:var(--ink);color:var(--bg);}
@@ -153,7 +155,6 @@
     .lf-fig{margin:0;min-width:0;display:flex;justify-content:center;}
     .lf-fig img,.lf-fig video{width:100%;border-radius:var(--r);border:1px solid var(--line);}
     .lf-gallery{margin-top:clamp(28px,3.5vw,44px);}
-    .lf-gallery .gallery-track img{flex:none;width:100%;object-fit:contain;background:var(--bg);aspect-ratio:16/10;border-radius:0;}
     .lf-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(18px,2.5vw,32px);margin-top:clamp(28px,3.5vw,44px);}
     .lf-icons video{width:100%;max-width:240px;border-radius:var(--r);}
 
@@ -420,10 +421,10 @@
           </div>
           <div class="gallery-outer">
             <div class="gallery-track">
-              <img src="assets/olx-3.png" alt="COOL vs TECH comparison" />
-              <img src="assets/olx-4.png" alt="Moderno Tech × Moderno Cool" />
-              <img src="assets/olx-5.png" alt="TECH direction detail" />
-            </div>
+                <div class="gal-slide"><img src="assets/olx-3.png" alt="COOL vs TECH comparison" /></div>
+                <div class="gal-slide"><img src="assets/olx-4.png" alt="Moderno Tech × Moderno Cool" /></div>
+                <div class="gal-slide"><img src="assets/olx-5.png" alt="TECH direction detail" /></div>
+              </div>
           </div>
           <div class="gallery-dots"></div>
         </div>
@@ -481,10 +482,10 @@
             </div>
             <div class="gallery-outer">
               <div class="gallery-track">
-                <img src="assets/lookandfeel/lf-type-1.png" alt="Typography specimen" />
-                <img src="assets/lookandfeel/lf-type-2.png" alt="Typographic scale" />
-                <img src="assets/lookandfeel/lf-type-3.png" alt="Typography application" />
-                <img src="assets/lookandfeel/lf-type-4.png" alt="Typography recommendations" />
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-type-1.png" alt="Typography specimen" /></div>
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-type-2.png" alt="Typographic scale" /></div>
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-type-3.png" alt="Typography application" /></div>
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-type-4.png" alt="Typography recommendations" /></div>
               </div>
             </div>
             <div class="gallery-dots"></div>
@@ -529,10 +530,10 @@
             </div>
             <div class="gallery-outer">
               <div class="gallery-track">
-                <img src="assets/lookandfeel/lf-color-1.png" alt="Primary color" />
-                <img src="assets/lookandfeel/lf-color-2.png" alt="Color palette" />
-                <img src="assets/lookandfeel/lf-color-3.png" alt="Neutral usage" />
-                <img src="assets/lookandfeel/lf-color-4.png" alt="Color application" />
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-color-1.png" alt="Primary color" /></div>
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-color-2.png" alt="Color palette" /></div>
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-color-3.png" alt="Neutral usage" /></div>
+                <div class="gal-slide"><img src="assets/lookandfeel/lf-color-4.png" alt="Color application" /></div>
               </div>
             </div>
             <div class="gallery-dots"></div>
