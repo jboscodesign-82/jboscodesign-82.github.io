@@ -41,7 +41,9 @@ confira que a duração bate com a do GIF antes de apagar o original. A economia
 de 90%.
 
 **Galeria** aceita várias instâncias por página: o JS varre `.gallery` e inicializa
-cada uma. Não use IDs fixos.
+cada uma. Não use IDs fixos. Navega por setas, dots e arrasto com o dedo — o
+arrasto trava o eixo no primeiro movimento, então gesto vertical dentro da galeria
+continua rolando a página. `.gallery-outer` leva `touch-action: pan-y`.
 
 ## Comandos úteis
 

@@ -90,7 +90,7 @@
 
     /* galeria */
     .gallery-head{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:24px;}
-    .gallery-outer{overflow:hidden;border-radius:var(--r);background:var(--bg);}
+    .gallery-outer{touch-action:pan-y;overflow:hidden;border-radius:var(--r);background:var(--bg);}
     .gallery-track{display:flex;transition:transform .65s var(--ease);}
     .gallery-track img{flex:none;width:100%;object-fit:contain;background:var(--bg);aspect-ratio:16/10;}
     .gallery-arrows{display:flex;gap:10px;flex:none;}
@@ -306,6 +306,7 @@
     document.querySelectorAll('.gallery').forEach(function(g){
       var track = g.querySelector('.gallery-track');
       var dotsEl = g.querySelector('.gallery-dots');
+      if(!track || !dotsEl) return;
       var total = track.children.length;
       if(total < 2) return;
       var cur = 0, timer;
@@ -319,10 +320,15 @@
       }
 
       function start(){ clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 5000); }
-      function goTo(n){
-        cur = (n + total) % total;
+      function stop(){ clearInterval(timer); }
+      function render(){
         track.style.transform = 'translateX(-' + (cur*100) + '%)';
         dotsEl.querySelectorAll('.gallery-dot').forEach(function(d,idx){ d.classList.toggle('active', idx===cur); });
+      }
+      function goTo(n){
+        cur = (n + total) % total;
+        track.style.transition = '';
+        render();
         start();
       }
 
@@ -334,9 +340,50 @@
         if(d) goTo(parseInt(d.dataset.i,10));
       });
 
-      // pausa enquanto o usuário observa o diagrama
-      g.addEventListener('mouseenter', function(){ clearInterval(timer); });
+      // pausa enquanto o usuário observa
+      g.addEventListener('mouseenter', stop);
       g.addEventListener('mouseleave', start);
+
+      // arrastar com o dedo — o slide acompanha e solta na direção do gesto
+      var outer = g.querySelector('.gallery-outer') || track.parentNode;
+      var ativo = false, x0 = 0, y0 = 0, dx = 0, eixo = null, w = 1;
+
+      outer.addEventListener('touchstart', function(e){
+        if(e.touches.length !== 1) return;
+        stop();
+        ativo = true; eixo = null; dx = 0;
+        x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+        w = outer.getBoundingClientRect().width || 1;
+      }, {passive:true});
+
+      outer.addEventListener('touchmove', function(e){
+        if(!ativo || e.touches.length !== 1) return;
+        var mx = e.touches[0].clientX - x0;
+        var my = e.touches[0].clientY - y0;
+        if(eixo === null){
+          if(Math.abs(mx) < 8 && Math.abs(my) < 8) return;   // direção ainda indefinida
+          eixo = Math.abs(mx) > Math.abs(my) ? 'h' : 'v';
+        }
+        if(eixo !== 'h') return;                              // vertical: deixa a página rolar
+        if(e.cancelable) e.preventDefault();
+        dx = mx;
+        var borda = (cur === 0 && dx > 0) || (cur === total - 1 && dx < 0);
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(calc(-' + (cur*100) + '% + ' + (dx * (borda ? 0.35 : 1)) + 'px))';
+      }, {passive:false});
+
+      function solta(){
+        if(!ativo) return;
+        track.style.transition = '';
+        if(eixo === 'h' && Math.abs(dx) > Math.min(70, w * 0.18)) {
+          goTo(cur + (dx < 0 ? 1 : -1));
+        } else {
+          render(); start();
+        }
+        ativo = false; eixo = null; dx = 0;
+      }
+      outer.addEventListener('touchend', solta, {passive:true});
+      outer.addEventListener('touchcancel', solta, {passive:true});
 
       start();
     });
