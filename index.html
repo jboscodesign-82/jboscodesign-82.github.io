@@ -30,7 +30,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-padding-top: 92px; }
     body {
       margin: 0;
       background-color: var(--bg);
@@ -161,6 +161,7 @@
     .work-row { position: relative; margin: clamp(30px, 5.5vw, 92px) 0; }
     .work-row > a {
       position: relative; display: flex; align-items: center;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
       padding: 0 0 clamp(34px, 3.4vw, 52px);
       color: var(--ink); transition: color .45s var(--ease);
     }
@@ -602,6 +603,14 @@
         return el;
       }
 
+      // Reaproveita o mesmo elemento por projeto. Recriar <video> a cada troca
+      // de linha trava a thread durante o scroll e faz o toque seguinte morrer.
+      var mediaCache = Object.create(null);
+      function getMedia(type, src) {
+        if (!mediaCache[src]) mediaCache[src] = makeMedia(type, src);
+        return mediaCache[src];
+      }
+
       function setActive(i) {
         if (i === current || i < 0) return;
         current = i;
@@ -611,8 +620,10 @@
         card.style.transform = 'rotate(' + (parseFloat(row.dataset.rot) || 0) + 'deg)';
 
         var next = front ^ 1;
-        layers[next].innerHTML = '';
-        layers[next].appendChild(makeMedia(row.dataset.type, row.dataset.src));
+        var el = getMedia(row.dataset.type, row.dataset.src);
+        if (el.parentNode !== layers[next]) {
+          layers[next].replaceChildren(el);
+        }
         layers[next].classList.add('on');
         layers[front].classList.remove('on');
         front = next;
