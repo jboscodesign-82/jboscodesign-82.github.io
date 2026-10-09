@@ -150,9 +150,10 @@
     .found-head{display:flex;align-items:baseline;gap:16px;margin-bottom:10px;}
     .found-tag{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);flex:none;}
     .found-h{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,2.2vw,1.8rem);letter-spacing:-.02em;line-height:1.2;margin:0;}
-    .lf-row{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(18px,2.5vw,32px);margin-top:clamp(28px,3.5vw,44px);}
-    .lf-fig{margin:0;min-width:0;flex:1 1 320px;display:flex;justify-content:center;}
+    .lf-fig{margin:0;min-width:0;display:flex;justify-content:center;}
     .lf-fig img,.lf-fig video{width:100%;border-radius:var(--r);border:1px solid var(--line);}
+    .lf-gallery{margin-top:clamp(28px,3.5vw,44px);}
+    .lf-gallery .gallery-track img{flex:none;width:100%;object-fit:contain;background:var(--bg);aspect-ratio:16/10;border-radius:0;}
     .lf-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(18px,2.5vw,32px);margin-top:clamp(28px,3.5vw,44px);}
     .lf-icons video{width:100%;max-width:240px;border-radius:var(--r);}
 
@@ -409,21 +410,23 @@
           </div>
         </div>
         <!-- gallery -->
-        <div class="gallery-header reveal">
-          <span class="sec-label" style="margin-bottom:0;">Validation screens</span>
-          <div class="gallery-arrows">
-            <button class="gallery-arrow" id="gPrev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
-            <button class="gallery-arrow" id="gNext" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="gallery reveal" data-d="1">
+          <div class="gallery-header">
+            <span class="sec-label" style="margin-bottom:0;">Validation screens</span>
+            <div class="gallery-arrows">
+              <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+              <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
           </div>
-        </div>
-        <div class="gallery-outer reveal" data-d="1">
-          <div class="gallery-track" id="gTrack">
-            <img src="assets/olx-3.png" alt="COOL vs TECH comparison" />
-            <img src="assets/olx-4.png" alt="Moderno Tech × Moderno Cool" />
-            <img src="assets/olx-5.png" alt="TECH direction detail" />
+          <div class="gallery-outer">
+            <div class="gallery-track">
+              <img src="assets/olx-3.png" alt="COOL vs TECH comparison" />
+              <img src="assets/olx-4.png" alt="Moderno Tech × Moderno Cool" />
+              <img src="assets/olx-5.png" alt="TECH direction detail" />
+            </div>
           </div>
+          <div class="gallery-dots"></div>
         </div>
-        <div class="gallery-dots" id="gDots"></div>
       </div>
     </section>
 
@@ -468,19 +471,23 @@
               <p class="body-text">Roboto for stronger hierarchy, readability, and a more professional tone. Recommendations for the use of typography for consistent application.</p>
             </div>
           </div>
-          <div class="lf-row reveal" data-d="1">
-        <figure class="lf-fig" style="max-width:548px;">
-          <img src="assets/lookandfeel/lf-type-1.png" alt="" />
-        </figure>
-        <figure class="lf-fig" style="max-width:516px;">
-          <img src="assets/lookandfeel/lf-type-2.png" alt="" />
-        </figure>
-        <figure class="lf-fig" style="max-width:539px;">
-          <img src="assets/lookandfeel/lf-type-3.png" alt="" />
-        </figure>
-        <figure class="lf-fig" style="max-width:1028px;">
-          <img src="assets/lookandfeel/lf-type-4.png" alt="" />
-        </figure>
+          <div class="gallery lf-gallery reveal" data-d="1">
+            <div class="gallery-header">
+              <span class="sec-label" style="margin-bottom:0;">Typography guidelines</span>
+            <div class="gallery-arrows">
+              <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+              <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
+            </div>
+            <div class="gallery-outer">
+              <div class="gallery-track">
+                <img src="assets/lookandfeel/lf-type-1.png" alt="Typography specimen" />
+                <img src="assets/lookandfeel/lf-type-2.png" alt="Typographic scale" />
+                <img src="assets/lookandfeel/lf-type-3.png" alt="Typography application" />
+                <img src="assets/lookandfeel/lf-type-4.png" alt="Typography recommendations" />
+              </div>
+            </div>
+            <div class="gallery-dots"></div>
           </div>
         </div>
 
@@ -512,19 +519,23 @@
               <p class="body-text">Purple as the primary color to reinforce brand identity and convey a more sober, trustworthy tone; greater use of neutrals to support hierarchy and readability.</p>
             </div>
           </div>
-          <div class="lf-row reveal" data-d="1">
-        <figure class="lf-fig" style="max-width:688px;">
-          <img src="assets/lookandfeel/lf-color-1.png" alt="" />
-        </figure>
-        <figure class="lf-fig" style="max-width:945px;">
-          <img src="assets/lookandfeel/lf-color-2.png" alt="" />
-        </figure>
-        <figure class="lf-fig" style="max-width:515px;">
-          <img src="assets/lookandfeel/lf-color-3.png" alt="" />
-        </figure>
-        <figure class="lf-fig" style="max-width:1127px;">
-          <img src="assets/lookandfeel/lf-color-4.png" alt="" />
-        </figure>
+          <div class="gallery lf-gallery reveal" data-d="1">
+            <div class="gallery-header">
+              <span class="sec-label" style="margin-bottom:0;">Color guidelines</span>
+            <div class="gallery-arrows">
+              <button class="gallery-arrow" data-dir="-1" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></button>
+              <button class="gallery-arrow" data-dir="1" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
+            </div>
+            <div class="gallery-outer">
+              <div class="gallery-track">
+                <img src="assets/lookandfeel/lf-color-1.png" alt="Primary color" />
+                <img src="assets/lookandfeel/lf-color-2.png" alt="Color palette" />
+                <img src="assets/lookandfeel/lf-color-3.png" alt="Neutral usage" />
+                <img src="assets/lookandfeel/lf-color-4.png" alt="Color application" />
+              </div>
+            </div>
+            <div class="gallery-dots"></div>
           </div>
         </div>
 
@@ -758,30 +769,44 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
     document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
-    // gallery
-    (function(){
-      var track = document.getElementById('gTrack');
-      var dotsEl = document.getElementById('gDots');
-      if(!track) return;
-      var imgs = track.querySelectorAll('img');
-      var total = imgs.length;
+    // galeria — cada instância é independente
+    document.querySelectorAll('.gallery').forEach(function(g){
+      var track = g.querySelector('.gallery-track');
+      var dotsEl = g.querySelector('.gallery-dots');
+      if(!track || !dotsEl) return;
+      var total = track.children.length;
+      if(total < 2) return;
       var cur = 0, timer;
+
       for(var i=0;i<total;i++){
         var d = document.createElement('button');
-        d.className = 'gallery-dot'+(i===0?' active':'');
-        d.dataset.i = i; dotsEl.appendChild(d);
+        d.className = 'gallery-dot' + (i===0 ? ' active' : '');
+        d.dataset.i = i;
+        d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+        dotsEl.appendChild(d);
       }
+
+      function start(){ clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 5000); }
       function goTo(n){
-        cur = (n+total)%total;
-        track.style.transform = 'translateX(-'+(cur*100)+'%)';
-        dotsEl.querySelectorAll('.gallery-dot').forEach(function(d,idx){ d.classList.toggle('active',idx===cur); });
-        clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 4500);
+        cur = (n + total) % total;
+        track.style.transform = 'translateX(-' + (cur*100) + '%)';
+        dotsEl.querySelectorAll('.gallery-dot').forEach(function(d,idx){ d.classList.toggle('active', idx===cur); });
+        start();
       }
-      document.getElementById('gPrev').addEventListener('click', function(){ goTo(cur-1); });
-      document.getElementById('gNext').addEventListener('click', function(){ goTo(cur+1); });
-      dotsEl.addEventListener('click', function(e){ var d=e.target.closest('.gallery-dot'); if(d) goTo(parseInt(d.dataset.i)); });
-      timer = setInterval(function(){ goTo(cur+1); }, 4500);
-    })();
+
+      g.querySelectorAll('.gallery-arrow').forEach(function(btn){
+        btn.addEventListener('click', function(){ goTo(cur + parseInt(btn.dataset.dir,10)); });
+      });
+      dotsEl.addEventListener('click', function(e){
+        var d = e.target.closest('.gallery-dot');
+        if(d) goTo(parseInt(d.dataset.i,10));
+      });
+
+      g.addEventListener('mouseenter', function(){ clearInterval(timer); });
+      g.addEventListener('mouseleave', start);
+
+      start();
+    });
 
     // before/after — genérico para todos os .ba-container
     (function(){
