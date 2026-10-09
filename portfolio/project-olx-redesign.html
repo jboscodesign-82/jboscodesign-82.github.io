@@ -145,13 +145,16 @@
     .insight-decision{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);font-style:italic;max-width:48ch;color:var(--muted);}
 
     /* ---- foundations grid ---- */
-    .found-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-    @media(max-width:768px){.found-grid{grid-template-columns:1fr 1fr;}}
-    @media(max-width:480px){.found-grid{grid-template-columns:1fr;}}
-    .found-card{background:var(--bg-2);border-radius:var(--r);padding:28px 24px;}
-    .found-icon{font-size:1.6rem;margin-bottom:14px;line-height:1;}
-    .found-title{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:0 0 8px;}
-    .found-body{font-size:.88rem;line-height:1.7;color:var(--muted);margin:0;}
+    .found-sec{padding:clamp(44px,5.5vw,76px) 0;border-top:1px solid var(--line);}
+    .found-sec:first-child{border-top:none;padding-top:0;}
+    .found-head{display:flex;align-items:baseline;gap:16px;margin-bottom:10px;}
+    .found-tag{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);flex:none;}
+    .found-h{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,2.2vw,1.8rem);letter-spacing:-.02em;line-height:1.2;margin:0;}
+    .lf-row{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(18px,2.5vw,32px);margin-top:clamp(28px,3.5vw,44px);}
+    .lf-fig{margin:0;min-width:0;flex:1 1 320px;display:flex;justify-content:center;}
+    .lf-fig img,.lf-fig video{width:100%;border-radius:var(--r);border:1px solid var(--line);}
+    .lf-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(18px,2.5vw,32px);margin-top:clamp(28px,3.5vw,44px);}
+    .lf-icons video{width:100%;max-width:240px;border-radius:var(--r);}
 
     /* ---- before / after ---- */
     .ba-phone-outer{display:flex;justify-content:center;}
@@ -446,35 +449,134 @@
     <!-- VISUAL FOUNDATIONS -->
     <section class="sec">
       <div class="wrap">
-        <div class="reveal" style="margin-bottom:40px;">
+        <div class="reveal" style="margin-bottom:clamp(40px,5vw,64px);">
           <span class="sec-label">Visual Foundations</span>
           <h2 class="sec-heading">Design principles <em>made tangible</em></h2>
+          <p class="body-text" style="max-width:56ch;">The foundations were translated into practical design guidelines.</p>
         </div>
-        <div class="found-grid">
-          <div class="found-card reveal">
-            <div class="found-icon">Tt</div>
-            <h3 class="found-title">Typography</h3>
-            <p class="found-body">Roboto adopted for stronger hierarchy, readability, and a more professional tone. Consistent rules for scale and application across verticals.</p>
+
+        <!-- Typography -->
+        <div class="found-sec">
+          <div class="two-col reveal">
+            <div>
+              <div class="found-head">
+                <span class="found-tag">01</span>
+                <h3 class="found-h">Typography</h3>
+              </div>
+            </div>
+            <div>
+              <p class="body-text">Roboto for stronger hierarchy, readability, and a more professional tone. Recommendations for the use of typography for consistent application.</p>
+            </div>
           </div>
-          <div class="found-card reveal" data-d="1">
-            <div class="found-icon">⬜</div>
-            <h3 class="found-title">Spacing</h3>
-            <p class="found-body">Increased whitespace to reduce cognitive load and improve scannability. Defined spacing scales and familiarity criteria.</p>
+          <div class="lf-row reveal" data-d="1">
+        <figure class="lf-fig" style="max-width:548px;">
+          <img src="assets/lookandfeel/lf-type-1.png" alt="" />
+        </figure>
+        <figure class="lf-fig" style="max-width:516px;">
+          <img src="assets/lookandfeel/lf-type-2.png" alt="" />
+        </figure>
+        <figure class="lf-fig" style="max-width:539px;">
+          <img src="assets/lookandfeel/lf-type-3.png" alt="" />
+        </figure>
+        <figure class="lf-fig" style="max-width:1028px;">
+          <img src="assets/lookandfeel/lf-type-4.png" alt="" />
+        </figure>
           </div>
-          <div class="found-card reveal" data-d="2">
-            <div class="found-icon">●</div>
-            <h3 class="found-title">Colors</h3>
-            <p class="found-body">Purple as primary to reinforce brand identity and convey a sober, trustworthy tone. Greater use of neutrals to support hierarchy and readability.</p>
+        </div>
+
+        <!-- Spacing -->
+        <div class="found-sec">
+          <div class="two-col reveal">
+            <div>
+              <div class="found-head">
+                <span class="found-tag">02</span>
+                <h3 class="found-h">Spacing</h3>
+              </div>
+            </div>
+            <div>
+              <p class="body-text">Increased whitespace to reduce cognitive load and improve scannability. The spacing scales and criteria of familiarity have been defined.</p>
+            </div>
           </div>
-          <div class="found-card reveal" data-d="3">
-            <div class="found-icon">▢</div>
-            <h3 class="found-title">Border</h3>
-            <p class="found-body">Adaptive border radius to convey a modern and flexible visual language — consistent across components and contexts.</p>
+        </div>
+
+        <!-- Colors -->
+        <div class="found-sec">
+          <div class="two-col reveal">
+            <div>
+              <div class="found-head">
+                <span class="found-tag">03</span>
+                <h3 class="found-h">Colors</h3>
+              </div>
+            </div>
+            <div>
+              <p class="body-text">Purple as the primary color to reinforce brand identity and convey a more sober, trustworthy tone; greater use of neutrals to support hierarchy and readability.</p>
+            </div>
           </div>
-          <div class="found-card reveal" data-d="4">
-            <div class="found-icon">✦</div>
-            <h3 class="found-title">3D &amp; Motion</h3>
-            <p class="found-body">Replaced illustrations with scalable 3D icons generated via a custom Gemini bot. Subtle realism and clear feedback for user actions.</p>
+          <div class="lf-row reveal" data-d="1">
+        <figure class="lf-fig" style="max-width:688px;">
+          <img src="assets/lookandfeel/lf-color-1.png" alt="" />
+        </figure>
+        <figure class="lf-fig" style="max-width:945px;">
+          <img src="assets/lookandfeel/lf-color-2.png" alt="" />
+        </figure>
+        <figure class="lf-fig" style="max-width:515px;">
+          <img src="assets/lookandfeel/lf-color-3.png" alt="" />
+        </figure>
+        <figure class="lf-fig" style="max-width:1127px;">
+          <img src="assets/lookandfeel/lf-color-4.png" alt="" />
+        </figure>
+          </div>
+        </div>
+
+        <!-- Border -->
+        <div class="found-sec">
+          <div class="two-col reveal">
+            <div>
+              <div class="found-head">
+                <span class="found-tag">04</span>
+                <h3 class="found-h">Border</h3>
+              </div>
+            </div>
+            <div>
+              <p class="body-text">Adaptive border radius to convey a modern and flexible visual language.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D & Motion -->
+        <div class="found-sec">
+          <div class="two-col reveal">
+            <div>
+              <div class="found-head">
+                <span class="found-tag">05</span>
+                <h3 class="found-h">3D &amp; Motion</h3>
+              </div>
+            </div>
+            <div>
+              <p class="body-text">Subtle realism, functional usage, and clear feedback for user actions.</p>
+            </div>
+          </div>
+          <div class="lf-icons reveal" data-d="1">
+            <video autoplay loop muted playsinline aria-label="3D icon animation">
+              <source src="assets/lookandfeel/lf-3d-1.mp4" type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline aria-label="3D icon animation">
+              <source src="assets/lookandfeel/lf-3d-2.mp4" type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline aria-label="3D icon animation">
+              <source src="assets/lookandfeel/lf-3d-3.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="two-col reveal" data-d="2" style="margin-top:clamp(36px,4.5vw,60px);align-items:center;">
+            <div>
+              <p class="body-text">We replaced spots and illustrations with scalable 3D icons and created a <strong style="color:var(--ink);font-weight:500;">custom Gemini bot</strong> to generate them quickly based on predefined visual guidelines.</p>
+              <p class="body-text">This simplified application, ensured visual consistency, and significantly reduced production time.</p>
+            </div>
+            <div style="display:flex;justify-content:center;">
+              <figure class="lf-fig" style="max-width:887px;">
+                <img src="assets/lookandfeel/lf-gemini-bot.png" alt="Custom Gemini bot for generating 3D icons" />
+              </figure>
+            </div>
           </div>
         </div>
       </div>
